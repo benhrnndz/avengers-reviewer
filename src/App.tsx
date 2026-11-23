@@ -9,6 +9,7 @@ import { CharacterAtlas } from './components/CharacterAtlas';
 import { InfinitySagaSection } from './components/InfinitySagaSection';
 import { MultiverseSagaSection } from './components/MultiverseSagaSection';
 import { FoxLegacySection } from './components/FoxLegacySection';
+import { ShareDoomsdayCTA } from './components/ShareDoomsdayCTA';
 import { ProjectBriefingModal } from './components/ProjectBriefingModal';
 import { GlossaryModal, GlobalSearchModal } from './components/GlossaryAndSearchModals';
 import { DOOMSDAY_WATCHLIST } from './data';
@@ -111,6 +112,8 @@ export default function App() {
           onSelectProject={setSelectedProject}
           watchedIds={watchedIds}
         />
+
+        <ShareDoomsdayCTA />
       </main>
 
       <footer className="bg-[#09090B] py-10 px-4 sm:px-6 lg:px-8">
