@@ -27,7 +27,7 @@ export const CharacterAtlas: React.FC = () => {
   const statusBadge = (status?: CharacterProfile['castStatus']) => {
     if (status === 'Confirmed Nov 23')
       return 'bg-emerald-500 text-[#04110B] font-semibold border-emerald-400';
-    if (status === 'Potential / Rumored')
+    if (status === 'Rumored')
       return 'bg-amber-500/15 text-amber-300 border-amber-400/30';
     return 'bg-black/75 text-zinc-200 border-white/15';
   };
