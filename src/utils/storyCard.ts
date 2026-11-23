@@ -45,28 +45,29 @@ function wrapText(
 
   const lines: string[] = [];
   let current = words[0];
+  let overflowed = false;
 
   for (let i = 1; i < words.length; i++) {
     const test = `${current} ${words[i]}`;
     if (ctx.measureText(test).width <= maxWidth) {
       current = test;
     } else {
+      if (lines.length === maxLines - 1) {
+        overflowed = true;
+        break;
+      }
       lines.push(current);
       current = words[i];
-      if (lines.length === maxLines - 1) break;
     }
   }
   lines.push(current);
 
-  if (lines.length === maxLines) {
-    const usedWords = lines.join(' ').split(/\s+/).length;
-    if (usedWords < words.length) {
-      let last = lines[maxLines - 1];
-      while (last.length > 3 && ctx.measureText(`${last}…`).width > maxWidth) {
-        last = last.slice(0, -1).trimEnd();
-      }
-      lines[maxLines - 1] = `${last}…`;
+  if (overflowed) {
+    let last = lines[lines.length - 1];
+    while (last.length > 3 && ctx.measureText(`${last}…`).width > maxWidth) {
+      last = last.slice(0, -1).trimEnd();
     }
+    lines[lines.length - 1] = `${last}…`;
   }
 
   return lines;
@@ -188,13 +189,13 @@ export async function generateDoomsdayStoryCard(
   drawTrackedText(ctx, countdownText, W / 2, 1158, 7);
 
   // 6. Clean, unboxed personal invite note floating directly on the poster canvas
-  const trimmedNote = inviteNote.trim();
+  const trimmedNote = inviteNote.trim().replace(/:\s*$/, '');
   if (trimmedNote) {
     ctx.font = '400 35px "Inter", system-ui, -apple-system, sans-serif';
     ctx.fillStyle = 'rgba(240, 246, 243, 0.88)';
-    const lines = wrapText(ctx, trimmedNote, W - 240, 3);
+    const lines = wrapText(ctx, trimmedNote, W - 200, 5);
     const lineHeight = 56;
-    const startY = 1272;
+    const startY = 1268;
     lines.forEach((line, idx) => {
       ctx.fillText(line, W / 2, startY + idx * lineHeight);
     });
