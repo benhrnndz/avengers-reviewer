@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { DoomsdayHero } from './components/DoomsdayHero';
-import { DoomsdayWatchlist } from './components/DoomsdayWatchlist';
 import { PostCreditsVault } from './components/PostCreditsVault';
+import { DoomsdayWatchlist } from './components/DoomsdayWatchlist';
 import { InfinitySagaSection } from './components/InfinitySagaSection';
 import { MultiverseSagaSection } from './components/MultiverseSagaSection';
 import { FoxLegacySection } from './components/FoxLegacySection';
 import { CharacterAtlas } from './components/CharacterAtlas';
-import { ComicsLoreSection } from './components/ComicsLoreSection';
 import { ProjectBriefingModal } from './components/ProjectBriefingModal';
 import { GlossaryModal, GlobalSearchModal } from './components/GlossaryAndSearchModals';
 import { DOOMSDAY_WATCHLIST } from './data';
@@ -82,14 +81,14 @@ export default function App() {
           totalWatchlist={DOOMSDAY_WATCHLIST.length}
         />
 
+        <PostCreditsVault />
+
         <DoomsdayWatchlist
           watchedIds={watchedIds}
           onToggleWatched={toggleWatched}
           onResetWatched={resetWatched}
           onSelectProject={setSelectedProject}
         />
-
-        <PostCreditsVault />
 
         <InfinitySagaSection
           onSelectProject={setSelectedProject}
@@ -107,15 +106,13 @@ export default function App() {
         />
 
         <CharacterAtlas />
-
-        <ComicsLoreSection />
       </main>
 
       <footer className="bg-[#09090B] py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-zinc-500">
             <span className="text-zinc-200 font-medium">MCU Codex</span> · Fan-made guide spanning
-            Blade (1998), 21st Century Fox, Earth-616, Earth-828, Earth-10005 &amp; Marvel Comics.
+            Earth-616, Earth-828, Earth-10005, Sony Spider-Man, Blade &amp; Netflix Defenders.
           </div>
           <a
             href="#doomsday"
