@@ -107,31 +107,32 @@ export const DoomsdayHero: React.FC<DoomsdayHeroProps> = ({
                 </span>
               </h1>
               <p className="mt-5 text-base sm:text-[17px] text-zinc-400 leading-[1.65] max-w-xl">
-                Understand 28 years of Marvel cinema — from{' '}
-                <span className="text-zinc-200">Blade (1998)</span> and{' '}
-                <span className="text-zinc-200">X-Men (2000)</span> through all 23 Infinity Saga
-                films, the Multiverse Saga, and upcoming comic book adaptations — without having to
-                watch everything first.
+                Understand 28 years of Marvel cinema &amp; television — from{' '}
+                <span className="text-zinc-200">Blade (1998)</span>,{' '}
+                <span className="text-zinc-200">Tobey &amp; Andrew’s Spider-Man</span>,{' '}
+                <span className="text-zinc-200">Fox’s X-Men</span>, and{' '}
+                <span className="text-zinc-200">Netflix’s Defenders</span> through the Infinity and
+                Multiverse Sagas — without having to watch everything first.
               </p>
 
               {/* Actions */}
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
-                  href="#watchlist"
+                  href="#post-credits"
                   className="inline-flex items-center gap-2 h-11 px-5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-[#04110B] font-semibold text-sm transition-all duration-150 active:scale-[0.98]"
                 >
-                  <CheckCircle2 className="w-4 h-4" />
-                  16-Project Watchlist
-                  <span className="font-mono-tech text-xs opacity-75 tabular-nums">
-                    ({watchedCount}/{totalWatchlist})
-                  </span>
+                  Watch Official Trailers
+                  <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="#infinity-saga"
+                  href="#watchlist"
                   className="inline-flex items-center gap-2 h-11 px-4 rounded-lg bg-white/[0.05] hover:bg-white/[0.09] border border-white/[0.1] text-zinc-100 font-medium text-sm transition-all duration-150 active:scale-[0.98]"
                 >
-                  Start at Phase I (2008)
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  16-Project Watchlist
+                  <span className="font-mono-tech text-xs text-zinc-400 tabular-nums">
+                    ({watchedCount}/{totalWatchlist})
+                  </span>
                 </a>
                 <button
                   onClick={onOpenGlossary}
