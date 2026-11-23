@@ -3,6 +3,7 @@ import { ArrowUp } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { DoomsdayHero } from './components/DoomsdayHero';
 import { DoomsdayWatchlist } from './components/DoomsdayWatchlist';
+import { PostCreditsVault } from './components/PostCreditsVault';
 import { InfinitySagaSection } from './components/InfinitySagaSection';
 import { MultiverseSagaSection } from './components/MultiverseSagaSection';
 import { FoxLegacySection } from './components/FoxLegacySection';
@@ -87,6 +88,8 @@ export default function App() {
           onResetWatched={resetWatched}
           onSelectProject={setSelectedProject}
         />
+
+        <PostCreditsVault />
 
         <InfinitySagaSection
           onSelectProject={setSelectedProject}
