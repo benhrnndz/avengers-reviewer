@@ -10,13 +10,12 @@ interface NavbarProps {
 
 const NAV_LINKS = [
   { id: 'doomsday', label: 'Doomsday' },
+  { id: 'post-credits', label: 'Trailers & Stingers' },
   { id: 'watchlist', label: 'Watchlist (16)' },
-  { id: 'post-credits', label: 'Post-Credits' },
   { id: 'infinity-saga', label: 'Infinity Saga' },
   { id: 'multiverse-saga', label: 'Multiverse Saga' },
-  { id: 'fox-legacy', label: 'Fox & Blade' },
+  { id: 'fox-legacy', label: 'Non-MCU Vault' },
   { id: 'characters', label: 'Characters' },
-  { id: 'comics-lore', label: 'Comics' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
