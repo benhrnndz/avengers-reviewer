@@ -1,5 +1,10 @@
 const RELEASE_DATE = new Date('2026-12-18T00:00:00');
 
+export interface StoryCardReadiness {
+  watchedCount: number;
+  totalCount: number;
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -32,6 +37,27 @@ function drawTrackedText(
   }
 
   ctx.textAlign = prevAlign;
+}
+
+function drawPill(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number
+) {
+  const r = Math.min(h / 2, w / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
 }
 
 function wrapText(
@@ -103,7 +129,8 @@ function applySubtleFilmGrain(ctx: CanvasRenderingContext2D, width: number, heig
 
 export async function generateDoomsdayStoryCard(
   inviteNote: string,
-  shareUrl: string
+  shareUrl: string,
+  readiness: StoryCardReadiness
 ): Promise<Blob> {
   const W = 1080;
   const H = 1920;
@@ -126,15 +153,15 @@ export async function generateDoomsdayStoryCard(
 
   const vignette = ctx.createRadialGradient(
     W * 0.5,
-    H * 0.42,
+    H * 0.36,
     W * 0.08,
     W * 0.5,
-    H * 0.46,
+    H * 0.44,
     H * 0.68
   );
-  vignette.addColorStop(0, 'rgba(14, 72, 49, 0.42)');
+  vignette.addColorStop(0, 'rgba(14, 72, 49, 0.44)');
   vignette.addColorStop(0.55, 'rgba(6, 36, 25, 0)');
-  vignette.addColorStop(1, 'rgba(2, 13, 9, 0.78)');
+  vignette.addColorStop(1, 'rgba(2, 13, 9, 0.80)');
   ctx.fillStyle = vignette;
   ctx.fillRect(0, 0, W, H);
 
@@ -146,21 +173,21 @@ export async function generateDoomsdayStoryCard(
   // 2. Minimal release date header in brushed silver
   ctx.font = '500 22px "JetBrains Mono", ui-monospace, monospace';
   ctx.fillStyle = 'rgba(218, 232, 226, 0.62)';
-  drawTrackedText(ctx, 'DECEMBER 18, 2026', W / 2, 250, 9);
+  drawTrackedText(ctx, 'DECEMBER 18, 2026', W / 2, 220, 9);
 
   // 3. Official transparent Avengers: Doomsday logo (hero centerpiece, native crispness)
   try {
     const logo = await loadImage('/avengers-doomsday-logo.png');
-    const maxLogoW = 880;
-    const maxLogoH = 470;
+    const maxLogoW = 860;
+    const maxLogoH = 430;
     const ratio = Math.min(maxLogoW / logo.naturalWidth, maxLogoH / logo.naturalHeight);
     const drawW = logo.naturalWidth * ratio;
     const drawH = logo.naturalHeight * ratio;
-    ctx.drawImage(logo, (W - drawW) / 2, 520 + (maxLogoH - drawH) / 2, drawW, drawH);
+    ctx.drawImage(logo, (W - drawW) / 2, 390 + (maxLogoH - drawH) / 2, drawW, drawH);
   } catch {
     ctx.font = '700 76px "Inter", system-ui, sans-serif';
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('AVENGERS: DOOMSDAY', W / 2, 755);
+    ctx.fillText('AVENGERS: DOOMSDAY', W / 2, 605);
   }
 
   // 4. Single razor-thin metallic divider
@@ -171,8 +198,8 @@ export async function generateDoomsdayStoryCard(
   ctx.strokeStyle = lineGrad;
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(W / 2 - 72, 1085);
-  ctx.lineTo(W / 2 + 72, 1085);
+  ctx.moveTo(W / 2 - 72, 888);
+  ctx.lineTo(W / 2 + 72, 888);
   ctx.stroke();
 
   // 5. Understated live countdown
@@ -184,30 +211,72 @@ export async function generateDoomsdayStoryCard(
       ? `${daysLeft} ${daysLeft === 1 ? 'DAY' : 'DAYS'} TO DOOMSDAY`
       : 'NOW IN THEATERS';
 
-  ctx.font = '500 24px "JetBrains Mono", ui-monospace, monospace';
+  ctx.font = '500 23px "JetBrains Mono", ui-monospace, monospace';
   ctx.fillStyle = '#7AD4B0';
-  drawTrackedText(ctx, countdownText, W / 2, 1158, 7);
+  drawTrackedText(ctx, countdownText, W / 2, 952, 7);
 
-  // 6. Clean, unboxed personal invite note floating directly on the poster canvas
+  // 6. Doomsday Readiness progress block (minimal, unboxed, poster-grade)
+  const totalCount = Math.max(1, readiness.totalCount);
+  const watchedCount = Math.max(0, Math.min(totalCount, readiness.watchedCount));
+  const pct = Math.round((watchedCount / totalCount) * 100);
+
+  ctx.font = '500 19px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = 'rgba(218, 232, 226, 0.56)';
+  drawTrackedText(ctx, 'DOOMSDAY READINESS', W / 2, 1054, 7);
+
+  ctx.font = '700 88px "Inter", system-ui, -apple-system, sans-serif';
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText(`${pct}%`, W / 2, 1134);
+
+  // Sleek hairline progress track + emerald fill
+  const barW = 540;
+  const barH = 10;
+  const barX = (W - barW) / 2;
+  const barY = 1200;
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.13)';
+  drawPill(ctx, barX, barY, barW, barH);
+  ctx.fill();
+
+  if (pct > 0) {
+    const fillW = Math.max(barH, (barW * pct) / 100);
+    const barGrad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+    barGrad.addColorStop(0, '#10B981');
+    barGrad.addColorStop(1, '#6EE7B7');
+    ctx.fillStyle = barGrad;
+    drawPill(ctx, barX, barY, fillW, barH);
+    ctx.fill();
+  }
+
+  const watchedLabel =
+    watchedCount === totalCount
+      ? `${watchedCount} OF ${totalCount} WATCHED  ·  OPENING NIGHT READY`
+      : `${watchedCount} OF ${totalCount} ESSENTIAL PROJECTS WATCHED`;
+
+  ctx.font = '500 19px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = 'rgba(218, 232, 226, 0.68)';
+  drawTrackedText(ctx, watchedLabel, W / 2, 1254, 4);
+
+  // 7. Clean, unboxed personal invite note floating directly on the poster canvas
   const trimmedNote = inviteNote.trim().replace(/:\s*$/, '');
   if (trimmedNote) {
-    ctx.font = '400 35px "Inter", system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = 'rgba(240, 246, 243, 0.88)';
-    const lines = wrapText(ctx, trimmedNote, W - 200, 5);
-    const lineHeight = 56;
-    const startY = 1268;
+    ctx.font = '400 33px "Inter", system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(240, 246, 243, 0.86)';
+    const lines = wrapText(ctx, trimmedNote, W - 200, 4);
+    const lineHeight = 52;
+    const startY = 1362;
     lines.forEach((line, idx) => {
       ctx.fillText(line, W / 2, startY + idx * lineHeight);
     });
   }
 
-  // 7. Quiet bottom footer (leaves generous open space above for native IG/FB/TikTok Link Sticker)
+  // 8. Quiet bottom footer (leaves generous open space above for native IG/FB/TikTok Link Sticker)
   const cleanDisplayUrl =
     shareUrl.replace(/^https?:\/\//, '').replace(/\/$/, '').toUpperCase() || 'MCU CODEX';
 
   ctx.font = '500 20px "JetBrains Mono", ui-monospace, monospace';
   ctx.fillStyle = 'rgba(212, 226, 220, 0.45)';
-  drawTrackedText(ctx, cleanDisplayUrl, W / 2, 1730, 5);
+  drawTrackedText(ctx, cleanDisplayUrl, W / 2, 1756, 5);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
