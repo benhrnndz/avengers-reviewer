@@ -110,8 +110,8 @@ export const ProjectBriefingModal: React.FC<ProjectBriefingModalProps> = ({
                 <div className="sm:col-span-8 flex flex-col justify-between space-y-4">
                   <div>
                     <h3
-                      className={`text-2xl sm:text-3xl font-bold tracking-[-0.025em] leading-tight ${
-                        isInfinity ? 'font-serif-editorial font-medium text-[#121211]' : 'font-display text-white'
+                      className={`font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] leading-tight ${
+                        isInfinity ? 'text-[#121211]' : 'text-white'
                       }`}
                     >
                       {project.title}{' '}
