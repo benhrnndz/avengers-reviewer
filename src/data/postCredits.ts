@@ -1,4 +1,67 @@
-import { PostCreditsScene } from '../types';
+import { DoomsdayTrailer, PostCreditsScene } from '../types';
+
+export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
+  {
+    id: 'doomsday-official-trailer',
+    order: 1,
+    label: 'Official Trailer',
+    title: 'Avengers: Doomsday — Official Theatrical Trailer',
+    channel: 'Marvel Entertainment',
+    videoId: 'irVNGjRFZGk',
+    thumbnail: '/trailers/doomsday-trailer-1.jpg',
+    description:
+      'The flagship theatrical trailer revealing colliding realities, Robert Downey Jr.’s Victor von Doom, the Avengers, New Avengers, Fantastic Four, and the returning Fox X-Men.',
+    highlights: ['Doctor Doom Reveal', 'Xavier & Magneto Chess Reunion', 'Earth-616 × Earth-828 × Earth-10005'],
+  },
+  {
+    id: 'doomsday-the-return',
+    order: 2,
+    label: 'Official Footage',
+    title: 'Avengers: Doomsday — “The Return”',
+    channel: 'Marvel Entertainment',
+    videoId: 'Fg0jyss_YnU',
+    thumbnail: '/trailers/doomsday-trailer-2.jpg',
+    description:
+      'Official Marvel Studios theatrical spot focusing on legacy heroes stepping back into the breach as the final Incursion clock winds down.',
+    highlights: ['Returning Avengers Icons', 'Multiversal Collapse', 'Russo Brothers Direction'],
+  },
+  {
+    id: 'doomsday-december-18',
+    order: 3,
+    label: 'Teaser Spot',
+    title: 'Avengers: Doomsday — In Theaters December 18',
+    channel: 'Marvel Entertainment',
+    videoId: 'UfNu7pcR0e8',
+    thumbnail: '/trailers/doomsday-trailer-3.jpg',
+    description:
+      'High-impact official teaser spotlighting converging hero factions bracing against Doctor Doom’s arrival on December 18, 2026.',
+    highlights: ['Faction Convergence', 'Latveria & Doom', 'IMAX Event Scale'],
+  },
+  {
+    id: 'doomsday-only-in-theaters',
+    order: 4,
+    label: 'First Look',
+    title: 'Avengers: Doomsday — Only in Theaters December 18, 2026',
+    channel: 'Marvel Entertainment',
+    videoId: '399Ez7WHK5s',
+    thumbnail: '/trailers/doomsday-trailer-4.jpg',
+    description:
+      'Official Marvel Studios theatrical first-look footage framing the scale of Phase Six’s penultimate crossover event.',
+    highlights: ['Phase 6 Climax', 'Road to Secret Wars', 'December 18 Countdown'],
+  },
+  {
+    id: 'doomsday-countdown-disneyplus',
+    order: 5,
+    label: 'Official Recap Promo',
+    title: 'Countdown to Avengers: Doomsday — Every Moment on Disney+',
+    channel: 'Marvel Entertainment',
+    videoId: 'Kl7nG1nD0mk',
+    thumbnail: '/trailers/doomsday-trailer-5.jpg',
+    description:
+      'Marvel’s official retrospective sizzle connecting the Infinity Saga, Multiverse Saga, Fox X-Men, and Fantastic Four straight into Doomsday.',
+    highlights: ['Official Watchlist Promo', '26 Years of Marvel Cinema', 'Beginner Overview'],
+  },
+];
 
 export const DOOMSDAY_POST_CREDITS: PostCreditsScene[] = [
   {
