@@ -11,6 +11,7 @@ const FACTIONS: FactionFilter[] = [
   'Avengers & New Avengers',
   'Fantastic Four',
   'X-Men & Mutants',
+  'Young Avengers / Champions',
   'Cosmic & Multiverse',
   'Wakanda & Global Powers',
 ];
@@ -23,23 +24,39 @@ export const CharacterAtlas: React.FC = () => {
     return CHARACTERS.filter((c) => c.faction === faction);
   }, [faction]);
 
+  const statusBadge = (status?: CharacterProfile['castStatus']) => {
+    if (status === 'Confirmed Nov 23')
+      return 'bg-emerald-500 text-[#04110B] font-semibold border-emerald-400';
+    if (status === 'Potential / Rumored')
+      return 'bg-amber-500/15 text-amber-300 border-amber-400/30';
+    return 'bg-black/75 text-zinc-200 border-white/15';
+  };
+
   return (
     <section
       id="characters"
       className="py-24 bg-[#09090B] text-zinc-100 border-b border-white/[0.08]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <div className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-zinc-500 mb-2">
-            Key Players Atlas
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <div>
+            <div className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-zinc-500 mb-2">
+              Complete Cast &amp; Factions Atlas · {CHARACTERS.length} Players
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-[-0.03em]">
+              Who’s Who in Avengers: Doomsday
+            </h2>
+            <p className="mt-2.5 text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
+              The complete confirmed ensemble across the Avengers, New Avengers, Fantastic Four,
+              Fox X-Men, Wakanda, and Talokan — plus the{' '}
+              <span className="text-emerald-400 font-medium">Young Avengers / Champions</span>{' '}
+              following Hailee Steinfeld’s November 23 confirmation as Kate Bishop.
+            </p>
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-[-0.03em]">
-            Who’s Who Before Avengers: Doomsday
-          </h2>
-          <p className="mt-2.5 text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
-            Every pivotal hero, mutant, monarch, and cosmic guardian with official cast &amp;
-            character portraits — plus their exact standing before worlds collide.
-          </p>
+          <div className="font-mono-tech text-xs text-zinc-500 tabular-nums">
+            Showing <span className="text-zinc-200 font-semibold">{visibleChars.length}</span> of{' '}
+            {CHARACTERS.length} characters
+          </div>
         </div>
 
         {/* Shared-Element Faction Tabs */}
@@ -67,15 +84,15 @@ export const CharacterAtlas: React.FC = () => {
           })}
         </div>
 
-        {/* Official Actor / Character Poster Dossier Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Official Cast & Character Poster Dossier Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {visibleChars.map((char) => (
             <article
               key={char.id}
               className="group rounded-xl bg-[#101014] border border-white/[0.08] hover:border-white/[0.18] overflow-hidden flex flex-col justify-between transition-colors duration-200"
             >
               <div>
-                {/* Theatrical Cast Poster Header */}
+                {/* Theatrical Cast / Trailer Still Header */}
                 <div className="relative aspect-[4/3] bg-zinc-950 overflow-hidden border-b border-white/[0.07]">
                   <img
                     src={char.portrait}
@@ -84,9 +101,22 @@ export const CharacterAtlas: React.FC = () => {
                     className="w-full h-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#101014] via-[#101014]/25 to-transparent" />
-                  <span className="absolute top-3 left-3 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm font-mono-tech text-[10px] uppercase tracking-wider text-zinc-200 border border-white/10">
-                    {char.faction}
-                  </span>
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                    <span className="px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm font-mono-tech text-[10px] uppercase tracking-wider text-zinc-200 border border-white/10 truncate">
+                      {char.faction}
+                    </span>
+                    {char.castStatus && (
+                      <span
+                        className={`px-2 py-0.5 rounded backdrop-blur-sm font-mono-tech text-[9.5px] uppercase tracking-wider border shrink-0 ${statusBadge(
+                          char.castStatus
+                        )}`}
+                      >
+                        {char.castStatus === 'Confirmed Nov 23'
+                          ? 'Confirmed Today'
+                          : char.castStatus}
+                      </span>
+                    )}
+                  </div>
                   <div className="absolute bottom-3 left-4 right-4">
                     <h3 className="font-display text-xl font-bold text-white tracking-[-0.02em] leading-tight">
                       {char.name}
