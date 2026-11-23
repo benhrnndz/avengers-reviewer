@@ -4,6 +4,14 @@ export type MediaFormat = 'Film' | 'Series' | 'Special';
 
 export type PhaseNumber = 1 | 2 | 3 | 4 | 5 | 6;
 
+export type LegacyGroup =
+  | 'Sony Spider-Man (Tobey & Andrew)'
+  | 'Netflix Defenders Saga'
+  | 'Blade (1998–2004)'
+  | 'Fox X-Men & Wolverine'
+  | 'Deadpool'
+  | 'Fox Fantastic Four & Daredevil';
+
 export interface EasterEgg {
   title: string;
   detail: string;
@@ -16,7 +24,7 @@ export interface ProjectEntry {
   releaseDate: string;
   saga: SagaType;
   phase?: PhaseNumber;
-  foxGroup?: 'Blade (Pre-MCU Legacy)' | 'X-Men Original' | 'X-Men Revised & Solo' | 'Deadpool' | 'Fantastic Four' | 'Daredevil & Elektra';
+  foxGroup?: LegacyGroup;
   format: MediaFormat;
   poster?: string;
   runtime: string;
@@ -78,7 +86,7 @@ export interface CharacterProfile {
     | 'Young Avengers / Champions'
     | 'Cosmic & Multiverse'
     | 'Wakanda & Global Powers';
-  castStatus?: 'Confirmed' | 'Confirmed Nov 23' | 'Potential / Rumored';
+  castStatus?: 'Confirmed' | 'Confirmed Nov 23' | 'Rumored';
   originUniverse: string;
   debut: string;
   powers: string;
@@ -87,19 +95,6 @@ export interface CharacterProfile {
   doomsdayRole: string;
   essentialAppearances: string[];
   accent: string;
-}
-
-export interface ComicFact {
-  id: string;
-  title: string;
-  comicSource: string;
-  year: string;
-  likelihood: 'Virtually Confirmed' | 'Strong Teases in MCU' | 'Future Saga Setup';
-  category: 'Doctor Doom' | 'Secret Wars & Battleworld' | 'Mutants & X-Men' | 'Cosmic & Next Gen';
-  whatHappensInComics: string;
-  mcuCluesSoFar: string;
-  howItCouldAdapt: string;
-  spoilerNote?: string;
 }
 
 export interface GlossaryItem {
@@ -122,4 +117,16 @@ export interface PostCreditsScene {
   whatHappens: string;
   doomsdayConnection: string;
   featuredCharacters: string[];
+}
+
+export interface DoomsdayTrailer {
+  id: string;
+  order: number;
+  label: string;
+  title: string;
+  channel: string;
+  videoId: string;
+  thumbnail: string;
+  description: string;
+  highlights: string[];
 }
