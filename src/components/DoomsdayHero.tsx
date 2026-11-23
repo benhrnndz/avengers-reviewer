@@ -107,12 +107,8 @@ export const DoomsdayHero: React.FC<DoomsdayHeroProps> = ({
                 </span>
               </h1>
               <p className="mt-5 text-base sm:text-[17px] text-zinc-400 leading-[1.65] max-w-xl">
-                Understand 28 years of Marvel cinema &amp; television — from{' '}
-                <span className="text-zinc-200">Blade (1998)</span>,{' '}
-                <span className="text-zinc-200">Tobey &amp; Andrew’s Spider-Man</span>,{' '}
-                <span className="text-zinc-200">Fox’s X-Men</span>, and{' '}
-                <span className="text-zinc-200">Netflix’s Defenders</span> through the Infinity and
-                Multiverse Sagas — without having to watch everything first.
+                Understand 28 years of Marvel cinema and television — across every saga, legacy
+                universe, and colliding timeline — without having to watch everything first.
               </p>
 
               {/* Actions */}
