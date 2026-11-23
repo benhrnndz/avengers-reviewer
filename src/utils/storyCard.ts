@@ -10,6 +10,30 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
+function drawTrackedText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  centerX: number,
+  y: number,
+  tracking: number
+) {
+  const chars = Array.from(text);
+  const widths = chars.map((ch) => ctx.measureText(ch).width);
+  const totalW =
+    widths.reduce((sum, w) => sum + w, 0) + tracking * Math.max(0, chars.length - 1);
+
+  let cursorX = centerX - totalW / 2;
+  const prevAlign = ctx.textAlign;
+  ctx.textAlign = 'left';
+
+  for (let i = 0; i < chars.length; i++) {
+    ctx.fillText(chars[i], cursorX, y);
+    cursorX += widths[i] + tracking;
+  }
+
+  ctx.textAlign = prevAlign;
+}
+
 function wrapText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -35,8 +59,8 @@ function wrapText(
   lines.push(current);
 
   if (lines.length === maxLines) {
-    const remainingStart = lines.join(' ').split(/\s+/).length;
-    if (remainingStart < words.length) {
+    const usedWords = lines.join(' ').split(/\s+/).length;
+    if (usedWords < words.length) {
       let last = lines[maxLines - 1];
       while (last.length > 3 && ctx.measureText(`${last}…`).width > maxWidth) {
         last = last.slice(0, -1).trimEnd();
@@ -48,25 +72,32 @@ function wrapText(
   return lines;
 }
 
-function drawRoundedRect(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number
-) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
+function applySubtleFilmGrain(ctx: CanvasRenderingContext2D, width: number, height: number) {
+  const grainCanvas = document.createElement('canvas');
+  grainCanvas.width = 270;
+  grainCanvas.height = 480;
+  const gCtx = grainCanvas.getContext('2d');
+  if (!gCtx) return;
+
+  const imgData = gCtx.createImageData(grainCanvas.width, grainCanvas.height);
+  const data = imgData.data;
+
+  // Deterministic lightweight noise for tactile theatrical poster finish
+  let seed = 18122026;
+  for (let i = 0; i < data.length; i += 4) {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    const v = (seed >>> 24) & 0xff;
+    data[i] = v;
+    data[i + 1] = v;
+    data[i + 2] = v;
+    data[i + 3] = 9;
+  }
+
+  gCtx.putImageData(imgData, 0, 0);
+  ctx.save();
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(grainCanvas, 0, 0, width, height);
+  ctx.restore();
 }
 
 export async function generateDoomsdayStoryCard(
@@ -84,135 +115,98 @@ export async function generateDoomsdayStoryCard(
     throw new Error('Canvas 2D context unavailable');
   }
 
-  // Ensure web fonts are ready before drawing
   if (document.fonts?.ready) {
     await document.fonts.ready;
   }
 
-  // Clean obsidian-emerald canvas background (no soft glow blobs)
-  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-  bgGrad.addColorStop(0, '#051D14');
-  bgGrad.addColorStop(0.55, '#071410');
-  bgGrad.addColorStop(1, '#09090B');
-  ctx.fillStyle = bgGrad;
+  // 1. Signature Avengers: Doomsday Latverian emerald base (#062419) with theatrical vignette
+  ctx.fillStyle = '#062419';
   ctx.fillRect(0, 0, W, H);
 
-  // Subtle architectural outer hairline frame
-  const inset = 64;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
-  ctx.lineWidth = 2;
-  drawRoundedRect(ctx, inset, inset, W - inset * 2, H - inset * 2, 36);
-  ctx.stroke();
+  const vignette = ctx.createRadialGradient(
+    W * 0.5,
+    H * 0.42,
+    W * 0.08,
+    W * 0.5,
+    H * 0.46,
+    H * 0.68
+  );
+  vignette.addColorStop(0, 'rgba(14, 72, 49, 0.42)');
+  vignette.addColorStop(0.55, 'rgba(6, 36, 25, 0)');
+  vignette.addColorStop(1, 'rgba(2, 13, 9, 0.78)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, 0, W, H);
 
-  // Top label
-  ctx.textAlign = 'center';
+  applySubtleFilmGrain(ctx, W, H);
+
   ctx.textBaseline = 'middle';
-  ctx.font = '600 24px "JetBrains Mono", ui-monospace, monospace';
-  ctx.fillStyle = '#34D399';
-  ctx.fillText('MCU CODEX  ·  OPENING NIGHT GUIDE', W / 2, 180);
+  ctx.textAlign = 'center';
 
-  // Thin horizontal divider
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.moveTo(W / 2 - 140, 224);
-  ctx.lineTo(W / 2 + 140, 224);
-  ctx.stroke();
+  // 2. Minimal release date header in brushed silver
+  ctx.font = '500 22px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = 'rgba(218, 232, 226, 0.62)';
+  drawTrackedText(ctx, 'DECEMBER 18, 2026', W / 2, 250, 9);
 
-  // Official transparent Avengers: Doomsday logo at native sharpness
+  // 3. Official transparent Avengers: Doomsday logo (hero centerpiece, native crispness)
   try {
     const logo = await loadImage('/avengers-doomsday-logo.png');
-    const maxLogoW = 820;
-    const maxLogoH = 440;
+    const maxLogoW = 880;
+    const maxLogoH = 470;
     const ratio = Math.min(maxLogoW / logo.naturalWidth, maxLogoH / logo.naturalHeight);
     const drawW = logo.naturalWidth * ratio;
     const drawH = logo.naturalHeight * ratio;
-    ctx.drawImage(logo, (W - drawW) / 2, 340 + (maxLogoH - drawH) / 2, drawW, drawH);
+    ctx.drawImage(logo, (W - drawW) / 2, 520 + (maxLogoH - drawH) / 2, drawW, drawH);
   } catch {
     ctx.font = '700 76px "Inter", system-ui, sans-serif';
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('AVENGERS: DOOMSDAY', W / 2, 540);
+    ctx.fillText('AVENGERS: DOOMSDAY', W / 2, 755);
   }
 
-  // Dynamic countdown badge
+  // 4. Single razor-thin metallic divider
+  const lineGrad = ctx.createLinearGradient(W / 2 - 72, 0, W / 2 + 72, 0);
+  lineGrad.addColorStop(0, 'rgba(122, 212, 176, 0)');
+  lineGrad.addColorStop(0.5, 'rgba(122, 212, 176, 0.55)');
+  lineGrad.addColorStop(1, 'rgba(122, 212, 176, 0)');
+  ctx.strokeStyle = lineGrad;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 72, 1085);
+  ctx.lineTo(W / 2 + 72, 1085);
+  ctx.stroke();
+
+  // 5. Understated live countdown
   const now = new Date();
   const diffMs = RELEASE_DATE.getTime() - now.getTime();
   const daysLeft = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
   const countdownText =
     daysLeft > 0
-      ? `${daysLeft} ${daysLeft === 1 ? 'DAY' : 'DAYS'} UNTIL DECEMBER 18, 2026`
-      : 'IN THEATERS DECEMBER 18, 2026';
+      ? `${daysLeft} ${daysLeft === 1 ? 'DAY' : 'DAYS'} TO DOOMSDAY`
+      : 'NOW IN THEATERS';
 
-  ctx.font = '600 25px "JetBrains Mono", ui-monospace, monospace';
-  const badgeTextW = ctx.measureText(countdownText).width;
-  const badgeW = badgeTextW + 76;
-  const badgeH = 68;
-  const badgeX = (W - badgeW) / 2;
-  const badgeY = 860;
+  ctx.font = '500 24px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = '#7AD4B0';
+  drawTrackedText(ctx, countdownText, W / 2, 1158, 7);
 
-  ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
-  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 999);
-  ctx.fill();
-  ctx.strokeStyle = 'rgba(52, 211, 153, 0.42)';
-  ctx.lineWidth = 2;
-  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 999);
-  ctx.stroke();
+  // 6. Clean, unboxed personal invite note floating directly on the poster canvas
+  const trimmedNote = inviteNote.trim();
+  if (trimmedNote) {
+    ctx.font = '400 35px "Inter", system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(240, 246, 243, 0.88)';
+    const lines = wrapText(ctx, trimmedNote, W - 240, 3);
+    const lineHeight = 56;
+    const startY = 1272;
+    lines.forEach((line, idx) => {
+      ctx.fillText(line, W / 2, startY + idx * lineHeight);
+    });
+  }
 
-  ctx.fillStyle = '#A7F3D0';
-  ctx.fillText(countdownText, W / 2, badgeY + badgeH / 2 + 1);
+  // 7. Quiet bottom footer (leaves generous open space above for native IG/FB/TikTok Link Sticker)
+  const cleanDisplayUrl =
+    shareUrl.replace(/^https?:\/\//, '').replace(/\/$/, '').toUpperCase() || 'MCU CODEX';
 
-  // Personalized invite note card
-  const cardX = 112;
-  const cardY = 1004;
-  const cardW = W - 224;
-  const cardH = 380;
-
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 28);
-  ctx.fill();
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.10)';
-  ctx.lineWidth = 2;
-  drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 28);
-  ctx.stroke();
-
-  ctx.font = '500 40px "Inter", system-ui, -apple-system, sans-serif';
-  ctx.fillStyle = '#F4F4F5';
-  const noteLines = wrapText(ctx, inviteNote, cardW - 96, 5);
-  const lineHeight = 58;
-  const totalTextH = noteLines.length * lineHeight;
-  const startY = cardY + (cardH - totalTextH) / 2 + lineHeight / 2;
-
-  noteLines.forEach((line, idx) => {
-    ctx.fillText(line, W / 2, startY + idx * lineHeight);
-  });
-
-  // Bottom Link Sticker space & URL label (positioned safely above IG/TikTok bottom UI)
-  const cleanDisplayUrl = shareUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') || 'avengers-reviewer';
-
-  ctx.font = '600 22px "JetBrains Mono", ui-monospace, monospace';
-  ctx.fillStyle = '#71717A';
-  ctx.fillText('TRAILERS · POST-CREDITS · 16-PROJECT WATCHLIST · CAST', W / 2, 1480);
-
-  const pillW = 680;
-  const pillH = 92;
-  const pillX = (W - pillW) / 2;
-  const pillY = 1544;
-
-  ctx.fillStyle = '#101014';
-  drawRoundedRect(ctx, pillX, pillY, pillW, pillH, 22);
-  ctx.fill();
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
-  ctx.lineWidth = 2;
-  drawRoundedRect(ctx, pillX, pillY, pillW, pillH, 22);
-  ctx.stroke();
-
-  ctx.font = '600 30px "Inter", system-ui, sans-serif';
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillText(cleanDisplayUrl, W / 2, pillY + pillH / 2 + 1);
-
-  ctx.font = '500 22px "Inter", system-ui, sans-serif';
-  ctx.fillStyle = '#A1A1AA';
-  ctx.fillText('Paste the copied link into your Story Link Sticker', W / 2, 1690);
+  ctx.font = '500 20px "JetBrains Mono", ui-monospace, monospace';
+  ctx.fillStyle = 'rgba(212, 226, 220, 0.45)';
+  drawTrackedText(ctx, cleanDisplayUrl, W / 2, 1730, 5);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
