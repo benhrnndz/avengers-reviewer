@@ -12,10 +12,10 @@ const NAV_LINKS = [
   { id: 'doomsday', label: 'Doomsday' },
   { id: 'post-credits', label: 'Trailers & Stingers' },
   { id: 'watchlist', label: 'Watchlist (16)' },
+  { id: 'characters', label: 'Characters' },
   { id: 'infinity-saga', label: 'Infinity Saga' },
   { id: 'multiverse-saga', label: 'Multiverse Saga' },
   { id: 'fox-legacy', label: 'Non-MCU Vault' },
-  { id: 'characters', label: 'Characters' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -45,9 +45,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Wordmark — crisp, restrained, zero gimmicks */}
         <a
           href="#doomsday"
-          className="flex items-center gap-2.5 shrink-0 group focus:outline-none"
+          className="flex items-center gap-2 shrink-0 group focus:outline-none"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 transition-transform duration-200 group-hover:scale-125" />
+          <img
+            src="/avengers-icon.png"
+            alt="Avengers emblem"
+            className="w-5 h-5 object-contain transition-transform duration-200 group-hover:scale-105"
+          />
           <span className="font-display font-semibold text-sm tracking-[-0.02em] text-zinc-100">
             MCU Codex
           </span>
