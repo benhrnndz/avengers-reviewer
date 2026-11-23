@@ -13,7 +13,7 @@ A simple, beginner-friendly guide to everything you need to know before watching
 - **Character Atlas** — Meet the confirmed heroes, villains, and rumored returning icons heading into *Doomsday*.
 - **The Infinity Saga & The Multiverse Saga** — Browse every chapter of the MCU, from the Infinity Stones to how the Multiverse works.
 - **Legacy Marvel Vault** — Explore classic non-MCU movies and series whose worlds connect into the wider story.
-- **Invite a Friend** — Send the guide straight to whoever you're watching *Doomsday* with via Email, Messenger, X, TikTok, or Instagram.
+- **Invite a Friend** — Send the guide straight to whoever you're watching *Doomsday* with via Email, Facebook, Messenger, X, TikTok, or Instagram, or save a ready-to-post 9:16 Story card.
 
 ---
 
