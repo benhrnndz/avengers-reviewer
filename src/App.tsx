@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, RotateCcw } from 'lucide-react';
+import { IntroCurtain } from './components/IntroCurtain';
 import { Navbar } from './components/Navbar';
 import { DoomsdayHero } from './components/DoomsdayHero';
 import { PostCreditsVault } from './components/PostCreditsVault';
 import { DoomsdayWatchlist } from './components/DoomsdayWatchlist';
+import { CharacterAtlas } from './components/CharacterAtlas';
 import { InfinitySagaSection } from './components/InfinitySagaSection';
 import { MultiverseSagaSection } from './components/MultiverseSagaSection';
 import { FoxLegacySection } from './components/FoxLegacySection';
-import { CharacterAtlas } from './components/CharacterAtlas';
 import { ProjectBriefingModal } from './components/ProjectBriefingModal';
 import { GlossaryModal, GlobalSearchModal } from './components/GlossaryAndSearchModals';
 import { DOOMSDAY_WATCHLIST } from './data';
@@ -16,6 +17,7 @@ import { ProjectEntry } from './types';
 const STORAGE_KEY = 'mcu-codex-doomsday-watched-v1';
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(true);
   const [watchedIds, setWatchedIds] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -40,6 +42,7 @@ export default function App() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (
+        !showIntro &&
         e.key === '/' &&
         !(e.target instanceof HTMLInputElement) &&
         !(e.target instanceof HTMLTextAreaElement)
@@ -50,7 +53,7 @@ export default function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [showIntro]);
 
   const toggleWatched = (id: string) => {
     setWatchedIds((prev) =>
@@ -66,6 +69,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#09090B] text-zinc-100">
+      <IntroCurtain visible={showIntro} onEnter={() => setShowIntro(false)} />
+
       <Navbar
         onOpenSearch={() => setSearchOpen(true)}
         onOpenGlossary={() => setGlossaryOpen(true)}
@@ -90,6 +95,8 @@ export default function App() {
           onSelectProject={setSelectedProject}
         />
 
+        <CharacterAtlas />
+
         <InfinitySagaSection
           onSelectProject={setSelectedProject}
           watchedIds={watchedIds}
@@ -104,8 +111,6 @@ export default function App() {
           onSelectProject={setSelectedProject}
           watchedIds={watchedIds}
         />
-
-        <CharacterAtlas />
       </main>
 
       <footer className="bg-[#09090B] py-10 px-4 sm:px-6 lg:px-8">
@@ -114,12 +119,23 @@ export default function App() {
             <span className="text-zinc-200 font-medium">MCU Codex</span> · Fan-made guide spanning
             Earth-616, Earth-828, Earth-10005, Sony Spider-Man, Blade &amp; Netflix Defenders.
           </div>
-          <a
-            href="#doomsday"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-mono-tech text-zinc-300 transition-colors"
-          >
-            <ArrowUp className="w-3.5 h-3.5" /> Top
-          </a>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                setShowIntro(true);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-mono-tech text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+            >
+              <RotateCcw className="w-3 h-3" /> Replay Intro
+            </button>
+            <a
+              href="#doomsday"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-mono-tech text-zinc-300 transition-colors"
+            >
+              <ArrowUp className="w-3.5 h-3.5" /> Top
+            </a>
+          </div>
         </div>
       </footer>
 
