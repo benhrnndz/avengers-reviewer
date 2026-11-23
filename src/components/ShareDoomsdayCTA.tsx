@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, Copy, Mail, Share2 } from 'lucide-react';
+import { Check, Copy, ImageDown, Mail, Share2 } from 'lucide-react';
+import { generateDoomsdayStoryCard } from '../utils/storyCard';
 
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const DEFAULT_MESSAGE =
   'We’re watching Avengers: Doomsday on Dec 18 — here’s the complete MCU catch-up guide so you don’t have to watch 60+ movies first:';
+
+const FacebookIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.78-3.91 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.43-4.92 8.43-9.94z" />
+  </svg>
+);
 
 const MessengerIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -36,6 +43,7 @@ const InstagramIcon: React.FC<{ className?: string }> = ({ className }) => (
 export const ShareDoomsdayCTA: React.FC = () => {
   const [message, setMessage] = useState(DEFAULT_MESSAGE);
   const [copied, setCopied] = useState(false);
+  const [storyBusy, setStoryBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [canNativeShare, setCanNativeShare] = useState(false);
 
@@ -52,7 +60,7 @@ export const ShareDoomsdayCTA: React.FC = () => {
     setToast(text);
     window.setTimeout(() => {
       setToast((current) => (current === text ? null : current));
-    }, 3200);
+    }, 3600);
   };
 
   const copyToClipboard = async (text: string) => {
@@ -81,6 +89,15 @@ export const ShareDoomsdayCTA: React.FC = () => {
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
+  const handleFacebookShare = () => {
+    const url = getShareUrl();
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(message)}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
+  };
+
   const handleXShare = () => {
     const url = getShareUrl();
     const text = encodeURIComponent(message);
@@ -91,7 +108,10 @@ export const ShareDoomsdayCTA: React.FC = () => {
     );
   };
 
-  const handleSocialCopyAndOpen = async (platform: 'Messenger' | 'TikTok' | 'Instagram', targetUrl: string) => {
+  const handleSocialCopyAndOpen = async (
+    platform: 'Messenger' | 'TikTok' | 'Instagram',
+    targetUrl: string
+  ) => {
     const url = getShareUrl();
     const fullText = `${message} ${url}`;
 
@@ -114,6 +134,55 @@ export const ShareDoomsdayCTA: React.FC = () => {
     window.open(targetUrl, '_blank', 'noopener,noreferrer');
   };
 
+  const handleStoryCard = async () => {
+    if (storyBusy) return;
+    setStoryBusy(true);
+    const url = getShareUrl();
+
+    try {
+      const blob = await generateDoomsdayStoryCard(message, url);
+      const file = new File([blob], 'avengers-doomsday-story.png', { type: 'image/png' });
+
+      // Copy the site URL so the user can drop a Link Sticker in IG / FB / TikTok Stories
+      await copyToClipboard(url);
+
+      // On mobile browsers supporting file sharing, open the native Share Sheet directly
+      if (
+        typeof navigator !== 'undefined' &&
+        typeof navigator.canShare === 'function' &&
+        navigator.canShare({ files: [file] }) &&
+        /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+      ) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Avengers: Doomsday — Watch Guide',
+            text: message,
+          });
+          showToast('Story card shared & link copied for your Link Sticker.');
+          return;
+        } catch {
+          // Dismissed or unsupported -> fall back to direct PNG download
+        }
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = 'avengers-doomsday-story.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+
+      showToast('9:16 Story card saved & link copied — upload to FB, IG, or TikTok Stories.');
+    } catch {
+      showToast('Could not generate the Story card — try Copy Invite instead.');
+    } finally {
+      setStoryBusy(false);
+    }
+  };
+
   const handleNativeShare = async () => {
     const url = getShareUrl();
     try {
@@ -133,6 +202,12 @@ export const ShareDoomsdayCTA: React.FC = () => {
       label: 'Email',
       icon: <Mail className="w-4 h-4" />,
       onClick: handleEmailShare,
+    },
+    {
+      id: 'facebook',
+      label: 'Facebook',
+      icon: <FacebookIcon className="w-4 h-4" />,
+      onClick: handleFacebookShare,
     },
     {
       id: 'messenger',
@@ -227,8 +302,10 @@ export const ShareDoomsdayCTA: React.FC = () => {
                       <span>{ch.label}</span>
                     </button>
                   ))}
+                </div>
 
-                  {/* Copy Link primary utility */}
+                {/* Primary utility row: Copy Invite + Ready-to-Post 9:16 Story Card */}
+                <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <button
                     type="button"
                     onClick={handleCopyLink}
@@ -241,13 +318,23 @@ export const ShareDoomsdayCTA: React.FC = () => {
                     {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                     <span>{copied ? 'Copied' : 'Copy Invite'}</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={handleStoryCard}
+                    disabled={storyBusy}
+                    className="h-11 px-3.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-white/[0.14] hover:border-white/[0.26] text-white text-xs sm:text-[13px] font-semibold inline-flex items-center justify-center gap-2 transition-all duration-150 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+                  >
+                    <ImageDown className="w-4 h-4 text-emerald-400" />
+                    <span>{storyBusy ? 'Creating Story…' : '9:16 Story Card'}</span>
+                  </button>
                 </div>
 
                 {canNativeShare && (
                   <button
                     type="button"
                     onClick={handleNativeShare}
-                    className="mt-3 w-full h-10 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.08] text-xs font-medium text-zinc-300 hover:text-white inline-flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                    className="mt-2.5 w-full h-10 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.08] text-xs font-medium text-zinc-300 hover:text-white inline-flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                   >
                     <Share2 className="w-3.5 h-3.5 text-emerald-400" />
                     More Share Options (Device Sheet)
@@ -272,8 +359,9 @@ export const ShareDoomsdayCTA: React.FC = () => {
                     </motion.div>
                   ) : (
                     <p className="text-[11px] text-zinc-500 leading-relaxed">
-                      Tip: Messenger, Instagram, and TikTok automatically copy your personalized
-                      invite so you can paste straight into any DM or story.
+                      Tip: Tap <strong className="text-zinc-300 font-medium">9:16 Story Card</strong>{' '}
+                      to generate a ready-to-post Facebook, Instagram, or TikTok Story image with
+                      your custom note and auto-copied link.
                     </p>
                   )}
                 </AnimatePresence>
