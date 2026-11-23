@@ -1,8 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Clock, RotateCcw, ArrowUpRight } from 'lucide-react';
+import { Check, Clock, RotateCcw, ArrowUpRight, Share2 } from 'lucide-react';
 import { DOOMSDAY_WATCHLIST } from '../data';
 import { ProjectEntry } from '../types';
+import { generateDoomsdayStoryCard } from '../utils/storyCard';
+
+const DEFAULT_STORY_NOTE =
+  'We’re watching Avengers: Doomsday on Dec 18 — here’s the complete MCU catch-up guide so you don’t have to watch 60+ movies first';
 
 interface DoomsdayWatchlistProps {
   watchedIds: string[];
@@ -20,6 +24,7 @@ export const DoomsdayWatchlist: React.FC<DoomsdayWatchlistProps> = ({
   onSelectProject,
 }) => {
   const [filter, setFilter] = useState<FilterMode>('all');
+  const [shareStatus, setShareStatus] = useState<'idle' | 'busy' | 'done'>('idle');
 
   const stats = useMemo(() => {
     const watchedSet = new Set(watchedIds);
@@ -36,6 +41,61 @@ export const DoomsdayWatchlist: React.FC<DoomsdayWatchlistProps> = ({
       remainingHours: (remainingMinutes / 60).toFixed(1),
     };
   }, [watchedIds]);
+
+  const handleQuickShareReadiness = async () => {
+    if (shareStatus === 'busy') return;
+    setShareStatus('busy');
+    const url =
+      typeof window !== 'undefined' ? window.location.origin + window.location.pathname : '';
+
+    try {
+      const blob = await generateDoomsdayStoryCard(DEFAULT_STORY_NOTE, url, {
+        watchedCount: stats.completedCount,
+        totalCount: stats.total,
+      });
+      const file = new File([blob], 'avengers-doomsday-story.png', { type: 'image/png' });
+
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        // ignore clipboard permission errors
+      }
+
+      if (
+        typeof navigator !== 'undefined' &&
+        typeof navigator.canShare === 'function' &&
+        navigator.canShare({ files: [file] }) &&
+        /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)
+      ) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: `My Doomsday Readiness: ${stats.pct}%`,
+            text: `I'm ${stats.pct}% ready for Avengers: Doomsday (${stats.completedCount}/${stats.total} watched).`,
+          });
+          setShareStatus('done');
+          window.setTimeout(() => setShareStatus('idle'), 2400);
+          return;
+        } catch {
+          // Dismissed or unsupported -> fall back to PNG download
+        }
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = 'avengers-doomsday-story.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+
+      setShareStatus('done');
+      window.setTimeout(() => setShareStatus('idle'), 2400);
+    } catch {
+      setShareStatus('idle');
+    }
+  };
 
   const filteredItems = useMemo(() => {
     const watchedSet = new Set(watchedIds);
@@ -81,39 +141,78 @@ export const DoomsdayWatchlist: React.FC<DoomsdayWatchlistProps> = ({
             </p>
           </div>
 
-          <div className="shrink-0 w-full lg:w-80 rounded-xl bg-[#131317] border border-white/[0.08] p-4">
-            <div className="flex items-baseline justify-between mb-2">
-              <span className="text-xs font-medium text-zinc-300">Doomsday Readiness</span>
-              <span className="font-mono-tech text-base font-semibold text-white tabular-nums">
+          <div className="shrink-0 w-full lg:w-[356px] rounded-xl bg-[#0A1812] border border-emerald-500/35 p-4.5 shadow-[0_14px_36px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(52,211,153,0.18)]">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
+                <span className="font-mono-tech text-[11px] uppercase tracking-[0.16em] text-emerald-300 font-medium">
+                  Doomsday Readiness
+                </span>
+              </div>
+              <span className="font-mono-tech text-2xl font-bold text-white tabular-nums tracking-tight">
                 {stats.pct}%
               </span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-white/[0.07] overflow-hidden">
+            <div className="w-full h-2.5 rounded-full bg-black/55 ring-1 ring-inset ring-white/[0.08] overflow-hidden">
               <motion.div
-                className="h-full bg-emerald-500 rounded-full"
+                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-300 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.45)]"
                 initial={false}
                 animate={{ width: `${stats.pct}%` }}
                 transition={{ type: 'spring', stiffness: 300, damping: 32 }}
               />
             </div>
-            <div className="mt-3 flex items-center justify-between text-xs text-zinc-400 tabular-nums">
+            <div className="mt-3 flex items-center justify-between text-xs text-zinc-300 tabular-nums">
               <span>
-                <strong className="text-zinc-100">{stats.completedCount}</strong> / {stats.total}{' '}
-                watched
+                <strong className="text-white font-semibold">{stats.completedCount}</strong> /{' '}
+                {stats.total} watched
               </span>
-              <span className="inline-flex items-center gap-1 font-mono-tech text-[11px] text-zinc-400">
-                <Clock className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1 font-mono-tech text-[11px] text-emerald-200/75">
+                <Clock className="w-3 h-3 text-emerald-400/80" />
                 {stats.remainingHours}h left
               </span>
             </div>
-            {stats.completedCount > 0 && (
-              <button
-                onClick={onResetWatched}
-                className="mt-2.5 inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-200 transition-colors cursor-pointer"
-              >
-                <RotateCcw className="w-3 h-3" /> Reset checklist
-              </button>
-            )}
+
+            <div className="mt-3.5 pt-3 border-t border-emerald-500/15 flex items-center justify-between gap-2">
+              {stats.completedCount > 0 ? (
+                <button
+                  onClick={onResetWatched}
+                  className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
+                >
+                  <RotateCcw className="w-3 h-3" /> Reset
+                </button>
+              ) : (
+                <span className="text-[11px] text-zinc-500">Check items to track</span>
+              )}
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleQuickShareReadiness}
+                  disabled={shareStatus === 'busy'}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/18 hover:bg-emerald-500/28 border border-emerald-400/35 text-[11px] font-medium text-emerald-200 hover:text-white transition-all active:scale-[0.97] disabled:opacity-60 cursor-pointer"
+                >
+                  {shareStatus === 'done' ? (
+                    <Check className="w-3 h-3 text-emerald-300" />
+                  ) : (
+                    <Share2 className="w-3 h-3 text-emerald-300" />
+                  )}
+                  <span>
+                    {shareStatus === 'busy'
+                      ? 'Saving…'
+                      : shareStatus === 'done'
+                        ? 'Story Saved'
+                        : 'Share Story'}
+                  </span>
+                </button>
+                <a
+                  href="#share-doomsday"
+                  className="inline-flex items-center px-2 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.08] text-[11px] text-zinc-400 hover:text-zinc-100 transition-colors"
+                  title="More share options"
+                >
+                  More
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
