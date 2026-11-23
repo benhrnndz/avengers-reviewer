@@ -108,3 +108,18 @@ export interface GlossaryItem {
   shortDef: string;
   example: string;
 }
+
+export interface PostCreditsScene {
+  id: string;
+  order: number;
+  projectTitle: string;
+  year: number;
+  sceneType: 'Mid-Credits' | 'Post-Credits' | 'Key Bridge Footage' | 'Encore Tag';
+  sceneTitle: string;
+  universeTag: string;
+  videoId: string;
+  thumbnail: string;
+  whatHappens: string;
+  doomsdayConnection: string;
+  featuredCharacters: string[];
+}
