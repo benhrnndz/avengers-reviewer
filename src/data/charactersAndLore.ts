@@ -1,4 +1,4 @@
-import { CharacterProfile, ComicFact, GlossaryItem } from '../types';
+import { CharacterProfile, GlossaryItem } from '../types';
 
 export const CHARACTERS: CharacterProfile[] = [
   // ================= DOOM & LATVERIA =================
@@ -416,6 +416,57 @@ export const CHARACTERS: CharacterProfile[] = [
     essentialAppearances: ['Deadpool & Wolverine'],
     accent: '#c026d3',
   },
+  {
+    id: 'wolverine-logan',
+    name: 'James “Logan” Howlett',
+    alias: 'Wolverine',
+    actor: 'Hugh Jackman',
+    faction: 'X-Men & Mutants',
+    castStatus: 'Rumored',
+    originUniverse: 'Earth-10005 (Variant)',
+    debut: 'X-Men (2000) → Deadpool & Wolverine (2024)',
+    powers: 'Mutant regenerative healing factor, heightened animal senses, and six retractable claws bonded with indestructible Adamantium.',
+    plainEnglishBio:
+      'Recruited by Deadpool as the “worst Wolverine” from a fallen timeline to replace Earth-10005’s deceased Anchor Being, this haunted yellow-suited Logan found redemption saving Wade’s universe alongside X-23.',
+    statusBeforeDoomsday: 'Living quietly on Earth-10005 with Deadpool, Laura (X-23), and Wade’s found family.',
+    doomsdayRole: 'Heavily rumored to join the returning Fox X-Men legends and Avengers when Earth-10005 collides with Earth-616.',
+    essentialAppearances: ['X-Men (2000)', 'X2: X-Men United', 'Logan', 'Deadpool & Wolverine'],
+    accent: '#eab308',
+  },
+  {
+    id: 'deadpool-wade',
+    name: 'Wade Wilson',
+    alias: 'Deadpool',
+    actor: 'Ryan Reynolds',
+    faction: 'X-Men & Mutants',
+    castStatus: 'Rumored',
+    originUniverse: 'Earth-10005',
+    debut: 'Deadpool (2016) → Deadpool & Wolverine (2024)',
+    powers: 'Accelerated healing factor rendering him nearly unkillable, twin katanas, master marksman, and fourth-wall-breaking awareness.',
+    plainEnglishBio:
+      'The Merc with a Mouth who single-handedly bridged 20th Century Fox’s universe into the MCU by partnering with the TVA and Wolverine to rescue Earth-10005 from annihilation.',
+    statusBeforeDoomsday: 'Saved Earth-10005 and earned the TVA’s gratitude — leaving fans eager for his rumored multiversal clash alongside the Avengers.',
+    doomsdayRole: 'Widely rumored wild card tied directly to the TVA and Earth-10005’s survival.',
+    essentialAppearances: ['Deadpool', 'Deadpool 2', 'Deadpool & Wolverine'],
+    accent: '#dc2626',
+  },
+  {
+    id: 'tobey-spider-man',
+    name: 'Peter Parker (Peter-Two)',
+    alias: 'Friendly Neighborhood Spider-Man',
+    actor: 'Tobey Maguire',
+    faction: 'Cosmic & Multiverse',
+    castStatus: 'Rumored',
+    originUniverse: 'Earth-96283 (Sony Raimi Universe)',
+    debut: 'Spider-Man (2002) → Spider-Man: No Way Home (2021)',
+    powers: 'Organic web-shooters, spider-sense danger warning, superhuman strength, wall-crawling, and two decades of veteran hero wisdom.',
+    plainEnglishBio:
+      'The original big-screen Spider-Man from Sam Raimi’s beloved trilogy who crossed into Earth-616 in No Way Home to stop Tom Holland’s Peter from killing Green Goblin and guide him back to hope.',
+    statusBeforeDoomsday: 'Returned home to Mary Jane on Earth-96283 after No Way Home — now heavily rumored to re-emerge as Incursions threaten legacy universes (and teased by Brand New Day’s deep-space spider signal!).',
+    doomsdayRole: 'Heavily rumored multiversal anchor uniting Marvel’s 2000s Sony era with the X-Men and Avengers.',
+    essentialAppearances: ['Spider-Man (2002)', 'Spider-Man 2', 'Spider-Man: No Way Home'],
+    accent: '#ef4444',
+  },
 
   // ================= YOUNG AVENGERS / CHAMPIONS =================
   {
@@ -458,7 +509,7 @@ export const CHARACTERS: CharacterProfile[] = [
     alias: 'Ms. Marvel',
     actor: 'Iman Vellani',
     faction: 'Young Avengers / Champions',
-    castStatus: 'Potential / Rumored',
+    castStatus: 'Rumored',
     originUniverse: 'Earth-616 (Jersey City)',
     debut: 'Ms. Marvel (2022) → The Marvels (2023)',
     powers: 'Earth-616 mutant (X-Gene!) harnessing hard-light cosmic energy constructs amplified by her ancient Quantum Band.',
@@ -475,7 +526,7 @@ export const CHARACTERS: CharacterProfile[] = [
     alias: 'Wiccan',
     actor: 'Joe Locke',
     faction: 'Young Avengers / Champions',
-    castStatus: 'Potential / Rumored',
+    castStatus: 'Rumored',
     originUniverse: 'Earth-616',
     debut: 'WandaVision (2021) → Agatha All Along (2024)',
     powers: 'Inherited his mother Wanda’s reality-warping blue Chaos Magic, telepathy, and spellcraft.',
@@ -492,7 +543,7 @@ export const CHARACTERS: CharacterProfile[] = [
     alias: 'Miss America',
     actor: 'Xochitl Gomez',
     faction: 'Young Avengers / Champions',
-    castStatus: 'Potential / Rumored',
+    castStatus: 'Rumored',
     originUniverse: 'Utopian Parallel (Unique in Multiverse)',
     debut: 'Doctor Strange in the Multiverse of Madness (2022)',
     powers: 'The ONLY being in the entire Multiverse with no variants — punches star-shaped portals between universes, now training in Mystic Arts at Kamar-Taj.',
@@ -509,7 +560,7 @@ export const CHARACTERS: CharacterProfile[] = [
     alias: 'Ironheart',
     actor: 'Dominique Thorne',
     faction: 'Young Avengers / Champions',
-    castStatus: 'Potential / Rumored',
+    castStatus: 'Rumored',
     originUniverse: 'Earth-616 (Chicago)',
     debut: 'Black Panther: Wakanda Forever (2022) → Ironheart (2025)',
     powers: 'MIT prodigy who engineered her own Tony-Stark-grade powered exo-armor, later fusing cutting-edge engineering with arcane Chicago lore.',
@@ -642,149 +693,6 @@ export const CHARACTERS: CharacterProfile[] = [
     doomsdayRole: 'Confirmed powerhouse with deep comic ties to both the Fantastic Four (Sue Storm!) and the Illuminati during Incursions.',
     essentialAppearances: ['Black Panther: Wakanda Forever'],
     accent: '#0d9488',
-  },
-];
-
-export const COMIC_FACTS: ComicFact[] = [
-  {
-    id: 'battleworld-god-emperor-doom',
-    title: 'God Emperor Doom & Battleworld',
-    comicSource: 'Secret Wars #1–9 (Jonathan Hickman, 2015)',
-    year: '2015',
-    likelihood: 'Virtually Confirmed',
-    category: 'Secret Wars & Battleworld',
-    whatHappensInComics:
-      'When the final Incursion wipes out the entire Multiverse — including Earth-616 and the Ultimate Universe — Doctor Doom refuses to let everything die. Stealing omnipotent cosmic power from the Beyonders, Doom stitches shattered fragments of dead universes into a single patchwork planet called BATTLEWORLD and rules it as "God Emperor Doom," with Doctor Strange serving as his Sheriff and Sue Storm (whose memories were rewritten) as his Queen!',
-    mcuCluesSoFar:
-      'The Void in Loki and Deadpool & Wolverine already functions as a visual prototype of Battleworld — a wasteland stitched together from dead Fox and MCU realities.',
-    howItCouldAdapt:
-      'Avengers: Doomsday is heavily expected to end like Infinity War — with the Multiverse collapsing and Doctor Doom seizing power to forge Battleworld as the main setting of Avengers: Secret Wars (2027)!',
-  },
-  {
-    id: 'doom-true-origin',
-    title: 'Victor von Doom’s Tragic Origin: Science, Sorcery & Mephisto',
-    comicSource: 'Books of Doom (2005) & Doctor Strange / Doctor Doom: Triumph and Torment (1989)',
-    year: '1989 / 2005',
-    likelihood: 'Strong Teases in MCU',
-    category: 'Doctor Doom',
-    whatHappensInComics:
-      'Born to persecuted Romani healers in the Eastern European nation of Latveria, Victor’s mother Cynthia lost her soul to the demon Mephisto. Obsessed with rescuing her soul from Hell, Victor mastered BOTH physics (rivaling Reed Richards in college) AND dark sorcery. After an experiment exploded and scarred his face, he blamed Reed, forged his armor in Tibet, overthrew Latveria’s tyrant to become a beloved yet ruthless king, and once even teamed up with Doctor Strange to descend into Hell and free his mother’s soul.',
-    mcuCluesSoFar:
-      'Kevin Feige explicitly emphasized RDJ is playing the authentic Victor von Doom — brilliant scientist, sorcerer, and monarch of Latveria (whose empty UN seat appeared in Fantastic Four: First Steps!).',
-    howItCouldAdapt:
-      'Expect Doom’s MCU motivations to feel surprisingly noble and tragic — driven by grief, wounded pride, and the conviction that only he has the will to save reality.',
-  },
-  {
-    id: 'franklin-richards-architect',
-    title: 'Franklin Richards: The Child Who Rebuilds the Multiverse',
-    comicSource: 'Fantastic Four & Secret Wars #9 (2015)',
-    year: '2015',
-    likelihood: 'Virtually Confirmed',
-    category: 'Secret Wars & Battleworld',
-    whatHappensInComics:
-      'Reed Richards and Sue Storm’s son Franklin is an Omega-level reality warper so unimaginably powerful that he creates pocket universes under his bedsheets as a kid — and at the end of Secret Wars (2015), Franklin and Reed literally dream the entire Marvel Multiverse back into existence!',
-    mcuCluesSoFar:
-      'First Steps centered its entire climax around Galactus wanting baby Franklin’s cosmic power — AND the post-credits literally ended with Doctor Doom approaching young Franklin!',
-    howItCouldAdapt:
-      'Instead of using the obscure comic character Molecule Man as the power battery for Battleworld, Marvel appears poised to have Doctor Doom abduct or manipulate Franklin Richards’s cosmic power to reshape reality!',
-  },
-  {
-    id: 'time-runs-out-moral-dilemma',
-    title: 'Time Runs Out: Destroying Another Earth to Save Your Own',
-    comicSource: 'New Avengers Vol. 3 (Jonathan Hickman, 2013–2015)',
-    year: '2013–2015',
-    likelihood: 'Virtually Confirmed',
-    category: 'Secret Wars & Battleworld',
-    whatHappensInComics:
-      'When an Incursion hits, two parallel Earths appear in each other’s sky for eight hours. There is only one horrific escape hatch: if you blow up the OTHER Earth before they collide, both universes survive (minus one planet). The secret Illuminati build planet-killing bombs while Captain America refuses to cross that moral line — fracturing the Avengers into civil war right before the end of everything.',
-    mcuCluesSoFar:
-      'Incursions were formally introduced in Multiverse of Madness, and Avengers: Doomsday brings Earth-616 (Avengers), Earth-828 (F4), and Earth-10005 (X-Men) into direct collision.',
-    howItCouldAdapt:
-      'Imagine the heartbreak when heroes we love — the Avengers, Fantastic Four, and Fox X-Men — realize saving their own universe might mean fighting each other!',
-  },
-  {
-    id: 'doom-vs-thanos-spine',
-    title: 'God Emperor Doom’s Most Infamous Moment vs. Thanos',
-    comicSource: 'Secret Wars #8 (2015)',
-    year: '2015',
-    likelihood: 'Strong Teases in MCU',
-    category: 'Doctor Doom',
-    whatHappensInComics:
-      'On Battleworld, an arrogant Thanos confronts God Emperor Doom, mocking his claim to godhood ("That appears... untrue"). Without raising his voice, Doom reaches straight through Thanos’s chest and effortlessly rips out his entire skeleton — instantly establishing Doom as a threat on a completely different tier than Thanos.',
-    mcuCluesSoFar:
-      'Marvel Studios loves iconic "power-scaling" moments (like Thanos beating Hulk bare-handed in Infinity War’s opening 5 minutes).',
-    howItCouldAdapt:
-      'Whether against a multiversal Thanos variant, Kang’s council, or even Sentry, expect Doom to get a jaw-dropping entrance that proves he dwarfs every past MCU villain.',
-  },
-  {
-    id: 'post-secret-wars-mutant-era',
-    title: 'The Soft Reboot: One Unified Earth for Avengers, F4 & X-Men',
-    comicSource: 'Secret Wars (2015) -> All-New, All-Different Marvel',
-    year: '2015',
-    likelihood: 'Virtually Confirmed',
-    category: 'Mutants & X-Men',
-    whatHappensInComics:
-      'After Battleworld ends and the Multiverse is restored, characters who used to live in separate universes (like Miles Morales from the Ultimate Universe) wake up seamlessly folded into Earth-616 as if they had always been there.',
-    mcuCluesSoFar:
-      'Kevin Feige has openly teased that the "Mutant Era" follows the Multiverse Saga, and right now the Fantastic Four (Earth-828) and Fox X-Men (Earth-10005) live in different dimensions from the Avengers (Earth-616).',
-    howItCouldAdapt:
-      'Secret Wars (2027) is the cleanest storytelling mechanism to merge the Fantastic Four, a newly cast MCU X-Men generation, and the Avengers onto ONE unified Earth-616 — launching the Mutant Saga!',
-  },
-  {
-    id: 'krakoa-and-avx',
-    title: 'House of X / Krakoa & Avengers vs. X-Men',
-    comicSource: 'Avengers vs. X-Men (2012) & House of X / Powers of X (2019)',
-    year: '2012 / 2019',
-    likelihood: 'Future Saga Setup',
-    category: 'Mutants & X-Men',
-    whatHappensInComics:
-      'In modern X-Men comics, mutants stop hiding in a school and unite — heroes and former villains like Magneto and Apocalypse alike — to found a sovereign living island nation called Krakoa, complete with mutant resurrection and miracle medicines that shift global politics overnight.',
-    mcuCluesSoFar:
-      'X-Men ’97 reminded audiences how epic mutant geopolitics are, and Adamantium’s discovery on Celestial Island in Brave New World sets up international tensions over mutant-linked tech.',
-    howItCouldAdapt:
-      'To distinguish MCU X-Men from the 2000s Fox school movies, Marvel Studios could fast-track Krakoa or an Avengers vs. X-Men conflict in Phase 7–9.',
-  },
-  {
-    id: 'doombots-and-true-cross',
-    title: 'Doombots, Time Platforms & Secret Magic Armor',
-    comicSource: 'Fantastic Four #5 (1962) & Classic Marvel Lore',
-    year: '1962–Present',
-    likelihood: 'Strong Teases in MCU',
-    category: 'Doctor Doom',
-    whatHappensInComics:
-      'Whenever heroes think they’ve defeated or outsmarted Doctor Doom, it frequently turns out to be a "Doombot" — a lifelike robotic decoy programmed to think it IS the real Doom! Doom also invented the first functional Time Platform (before Kang!) and lined his armor with a splinter of wood from the True Cross to ward off vampires and demons.',
-    mcuCluesSoFar:
-      'The MCU’s fusion of Stark-level robotics (Ironheart, Ultron) and Kamar-Taj sorcery makes Doom’s science-plus-magic kit feel completely organic.',
-    howItCouldAdapt:
-      'Watch out for a shocking mid-movie twist in Avengers: Doomsday where a hero unmasking or defeating Doom discovers sparks flying from a Doombot!',
-  },
-  {
-    id: 'young-avengers-champions',
-    title: 'Young Avengers / Champions & The Children’s Crusade',
-    comicSource: 'Young Avengers (2005) & Avengers: The Children’s Crusade (2010)',
-    year: '2005 / 2010',
-    likelihood: 'Virtually Confirmed',
-    category: 'Cosmic & Next Gen',
-    whatHappensInComics:
-      'In The Children’s Crusade, Wanda Maximoff’s reincarnated teenage sons Billy (Wiccan) and Tommy (Speed) lead the Young Avengers to Latveria — where an amnesiac Wanda is literally engaged to marry Doctor Doom!',
-    mcuCluesSoFar:
-      'EVERY piece just snapped into place: VisionQuest ended with Doctor Doom unearthing Wanda at Wundagore, Billy Maximoff returned in Agatha All Along, Cassie Lang is in Doomsday, AND Hailee Steinfeld’s Kate Bishop was officially confirmed for Doomsday on November 23, 2026!',
-    howItCouldAdapt:
-      'Expect Kate Bishop, Cassie Lang, and potential teammates Kamala Khan & Billy Maximoff to intersect straight with Doctor Doom’s storyline involving Scarlet Witch!',
-  },
-  {
-    id: 'midnight-sons-supernatural',
-    title: 'Midnight Sons & The Supernatural Corner',
-    comicSource: 'Rise of the Midnight Sons (1992)',
-    year: '1992',
-    likelihood: 'Future Saga Setup',
-    category: 'Cosmic & Next Gen',
-    whatHappensInComics:
-      'When demonic threats like Lilith, Chthon (author of the Darkhold), or Mephisto threaten Earth, Marvel’s horror-tinged anti-heroes — Blade, Ghost Rider, Moon Knight, Werewolf by Night, Elsa Bloodstone, Man-Thing, and Doctor Strange — form the Midnight Sons.',
-    mcuCluesSoFar:
-      'Moon Knight, Werewolf by Night, Man-Thing, Elsa Bloodstone, Agatha, Black Knight, and Mahershala Ali’s Blade voice cameo have all been seeded across Phase 4 & 5.',
-    howItCouldAdapt:
-      'Provides a dark, atmospheric supernatural ensemble alongside the Cosmic and Mutant corners once the Multiverse Saga wraps up.',
   },
 ];
 
