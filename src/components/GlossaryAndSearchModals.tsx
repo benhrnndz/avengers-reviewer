@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
-import { ALL_PROJECTS, BEGINNER_GLOSSARY, CHARACTERS, COMIC_FACTS } from '../data';
+import { ALL_PROJECTS, BEGINNER_GLOSSARY, CHARACTERS } from '../data';
 import { GlossaryItem, ProjectEntry } from '../types';
 
 const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -136,8 +136,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     if (!q) {
       return {
         projects: ALL_PROJECTS.filter((p) => p.inDoomsdayWatchlist).slice(0, 6),
-        characters: CHARACTERS.slice(0, 3),
-        comics: COMIC_FACTS.slice(0, 2),
+        characters: CHARACTERS.slice(0, 4),
       };
     }
 
@@ -157,13 +156,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           c.alias.toLowerCase().includes(q) ||
           c.actor.toLowerCase().includes(q) ||
           c.faction.toLowerCase().includes(q)
-      ).slice(0, 5),
-      comics: COMIC_FACTS.filter(
-        (f) =>
-          f.title.toLowerCase().includes(q) ||
-          f.whatHappensInComics.toLowerCase().includes(q) ||
-          f.comicSource.toLowerCase().includes(q)
-      ).slice(0, 4),
+      ).slice(0, 6),
     };
   }, [query]);
 
@@ -193,7 +186,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search films, VisionQuest, Blade, Doctor Doom, Infinity Stones, Easter eggs..."
+                placeholder="Search films, series, Spider-Man, Daredevil, Doctor Doom, Wolverine, Easter eggs..."
                 className="w-full bg-transparent text-sm text-white placeholder:text-zinc-500 focus:outline-none"
               />
               <button
@@ -233,7 +226,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                           <div className="text-xs text-zinc-400 truncate">{p.tagline}</div>
                         </div>
                         <span className="font-mono-tech text-[10px] uppercase text-zinc-500 shrink-0">
-                          {p.saga}
+                          {p.saga === 'fox' ? 'legacy' : p.saga}
                         </span>
                       </button>
                     ))}
@@ -274,45 +267,22 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                 </div>
               )}
 
-              {results.comics.length > 0 && (
-                <div>
-                  <div className="font-mono-tech text-[10px] uppercase tracking-widest text-zinc-500 px-2.5 mb-1.5">
-                    Comics Forecast
-                  </div>
-                  <div className="space-y-0.5">
-                    {results.comics.map((f) => (
-                      <a
-                        key={f.id}
-                        href="#comics-lore"
-                        onClick={onClose}
-                        className="block px-2.5 py-2 rounded-lg hover:bg-white/[0.06] transition-colors"
-                      >
-                        <div className="text-sm font-medium text-white">{f.title}</div>
-                        <div className="text-xs text-zinc-500">{f.comicSource}</div>
-                      </a>
-                    ))}
-                  </div>
+              {results.projects.length === 0 && results.characters.length === 0 && (
+                <div className="py-8 text-center">
+                  <p className="text-sm text-zinc-400 mb-3">
+                    No direct matches for “{query}”.
+                  </p>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onOpenGlossary();
+                    }}
+                    className="px-3.5 py-1.5 rounded-md bg-white/[0.08] text-zinc-200 text-xs font-medium cursor-pointer"
+                  >
+                    Open Beginner Glossary
+                  </button>
                 </div>
               )}
-
-              {results.projects.length === 0 &&
-                results.characters.length === 0 &&
-                results.comics.length === 0 && (
-                  <div className="py-8 text-center">
-                    <p className="text-sm text-zinc-400 mb-3">
-                      No direct matches for “{query}”.
-                    </p>
-                    <button
-                      onClick={() => {
-                        onClose();
-                        onOpenGlossary();
-                      }}
-                      className="px-3.5 py-1.5 rounded-md bg-white/[0.08] text-zinc-200 text-xs font-medium cursor-pointer"
-                    >
-                      Open Beginner Glossary
-                    </button>
-                  </div>
-                )}
             </div>
           </motion.div>
         </motion.div>
