@@ -40,12 +40,21 @@ const InstagramIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-export const ShareDoomsdayCTA: React.FC = () => {
+interface ShareDoomsdayCTAProps {
+  watchedCount: number;
+  totalWatchlist: number;
+}
+
+export const ShareDoomsdayCTA: React.FC<ShareDoomsdayCTAProps> = ({
+  watchedCount,
+  totalWatchlist,
+}) => {
   const [message, setMessage] = useState(DEFAULT_MESSAGE);
   const [copied, setCopied] = useState(false);
   const [storyBusy, setStoryBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [canNativeShare, setCanNativeShare] = useState(false);
+  const readinessPct = Math.round((watchedCount / Math.max(1, totalWatchlist)) * 100);
 
   useEffect(() => {
     setCanNativeShare(typeof navigator !== 'undefined' && typeof navigator.share === 'function');
@@ -140,7 +149,10 @@ export const ShareDoomsdayCTA: React.FC = () => {
     const url = getShareUrl();
 
     try {
-      const blob = await generateDoomsdayStoryCard(message, url);
+      const blob = await generateDoomsdayStoryCard(message, url, {
+        watchedCount,
+        totalCount: totalWatchlist,
+      });
       const file = new File([blob], 'avengers-doomsday-story.png', { type: 'image/png' });
 
       // Copy the site URL so the user can drop a Link Sticker in IG / FB / TikTok Stories
@@ -360,8 +372,11 @@ export const ShareDoomsdayCTA: React.FC = () => {
                   ) : (
                     <p className="text-[11px] text-zinc-500 leading-relaxed">
                       Tip: Tap <strong className="text-zinc-300 font-medium">9:16 Story Card</strong>{' '}
-                      to generate a ready-to-post Facebook, Instagram, or TikTok Story image with
-                      your custom note and auto-copied link.
+                      to save a ready-to-post Story poster with your live Doomsday Readiness (
+                      <span className="text-emerald-400 font-mono-tech tabular-nums">
+                        {readinessPct}%
+                      </span>
+                      ) and auto-copied link.
                     </p>
                   )}
                 </AnimatePresence>
