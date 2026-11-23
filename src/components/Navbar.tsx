@@ -11,6 +11,7 @@ interface NavbarProps {
 const NAV_LINKS = [
   { id: 'doomsday', label: 'Doomsday' },
   { id: 'watchlist', label: 'Watchlist (16)' },
+  { id: 'post-credits', label: 'Post-Credits' },
   { id: 'infinity-saga', label: 'Infinity Saga' },
   { id: 'multiverse-saga', label: 'Multiverse Saga' },
   { id: 'fox-legacy', label: 'Fox & Blade' },
