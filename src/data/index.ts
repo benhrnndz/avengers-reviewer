@@ -2,6 +2,7 @@ import { INFINITY_SAGA_PROJECTS as RAW_INFINITY, INFINITY_STONES } from './infin
 import { MULTIVERSE_SAGA_PROJECTS as RAW_MULTIVERSE, MULTIVERSE_RULES } from './multiverseSaga';
 import { FOX_PROJECTS as RAW_FOX, FOX_TIMELINE_EXPLAINER } from './foxProjects';
 import { CHARACTERS as RAW_CHARACTERS, COMIC_FACTS, BEGINNER_GLOSSARY } from './charactersAndLore';
+import { DOOMSDAY_POST_CREDITS } from './postCredits';
 import { CharacterProfile, ProjectEntry } from '../types';
 
 const withPoster = (list: ProjectEntry[]): ProjectEntry[] =>
@@ -35,4 +36,5 @@ export {
   FOX_TIMELINE_EXPLAINER,
   COMIC_FACTS,
   BEGINNER_GLOSSARY,
+  DOOMSDAY_POST_CREDITS,
 };
