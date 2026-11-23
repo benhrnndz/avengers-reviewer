@@ -75,8 +75,10 @@ export interface CharacterProfile {
     | 'Avengers & New Avengers'
     | 'Fantastic Four'
     | 'X-Men & Mutants'
+    | 'Young Avengers / Champions'
     | 'Cosmic & Multiverse'
     | 'Wakanda & Global Powers';
+  castStatus?: 'Confirmed' | 'Confirmed Nov 23' | 'Potential / Rumored';
   originUniverse: string;
   debut: string;
   powers: string;
