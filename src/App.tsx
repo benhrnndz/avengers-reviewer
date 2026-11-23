@@ -113,7 +113,10 @@ export default function App() {
           watchedIds={watchedIds}
         />
 
-        <ShareDoomsdayCTA />
+        <ShareDoomsdayCTA
+          watchedCount={watchedInOfficialList}
+          totalWatchlist={DOOMSDAY_WATCHLIST.length}
+        />
       </main>
 
       <footer className="bg-[#09090B] py-10 px-4 sm:px-6 lg:px-8">
