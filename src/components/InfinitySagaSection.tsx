@@ -161,7 +161,7 @@ export const InfinitySagaSection: React.FC<InfinitySagaSectionProps> = ({
                 <span className="text-[#C8C0B1]">/</span>
                 <span>The Sacred Timeline · 2008–2019</span>
               </div>
-              <h2 className="font-serif-editorial text-4xl sm:text-6xl font-medium tracking-[-0.025em] text-[#121211] leading-[1.02]">
+              <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-[-0.035em] text-[#121211] leading-[1.02]">
                 The Infinity Saga
               </h2>
               <p className="mt-4 text-base sm:text-[17px] text-[#524E46] leading-[1.65] max-w-2xl">
@@ -227,7 +227,7 @@ export const InfinitySagaSection: React.FC<InfinitySagaSectionProps> = ({
               <div className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-[#8A6A2C] mb-1.5">
                 Artifacts of the Saga · Kinetic Film Specimens
               </div>
-              <h3 className="font-serif-editorial text-3xl sm:text-4xl font-medium tracking-[-0.02em] text-[#121211]">
+              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#121211]">
                 The Six Infinity Stones
               </h3>
             </div>
@@ -332,7 +332,7 @@ export const InfinitySagaSection: React.FC<InfinitySagaSectionProps> = ({
                     <div className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#8A6A2C]">
                       Vessel: {selectedStone.vessel}
                     </div>
-                    <h4 className="font-serif-editorial text-2xl sm:text-3xl font-medium text-[#121211] mt-1">
+                    <h4 className="font-display text-2xl font-bold tracking-[-0.025em] text-[#121211] mt-1">
                       {selectedStone.name}
                     </h4>
                   </div>
@@ -378,7 +378,7 @@ export const InfinitySagaSection: React.FC<InfinitySagaSectionProps> = ({
         <div className="pt-14">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
             <div>
-              <h3 className="font-serif-editorial text-3xl sm:text-4xl font-medium tracking-[-0.02em] text-[#121211]">
+              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#121211]">
                 Complete 23-Film Index
               </h3>
               <p className="text-sm text-[#57524A] mt-1">
@@ -467,7 +467,7 @@ export const InfinitySagaSection: React.FC<InfinitySagaSectionProps> = ({
                         </span>
                         <span>{film.runtime}</span>
                       </div>
-                      <h4 className="mt-1 font-serif-editorial text-lg font-medium text-[#141413] group-hover:text-[#8A6A2C] transition-colors leading-snug">
+                      <h4 className="mt-1 font-display text-base font-semibold tracking-[-0.015em] text-[#141413] group-hover:text-[#8A6A2C] transition-colors leading-snug">
                         {film.title}
                       </h4>
                       <p className="mt-1 text-xs text-[#59544B] leading-relaxed line-clamp-2">
