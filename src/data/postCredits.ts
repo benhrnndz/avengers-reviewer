@@ -2,8 +2,20 @@ import { DoomsdayTrailer, PostCreditsScene } from '../types';
 
 export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   {
-    id: 'doomsday-official-trailer',
+    id: 'doomsday-final-trailer',
     order: 1,
+    label: 'Final Trailer',
+    title: 'Avengers: Doomsday — Final Trailer',
+    channel: 'Marvel Entertainment',
+    videoId: 'Wb8Tq_HD4E8',
+    thumbnail: '/trailers/doomsday-final-trailer.jpg',
+    description:
+      'The final official theatrical trailer for Avengers: Doomsday — revealing Steve Rogers’s quiet life disrupted by the Fantastic Four, Cyclops rallying the X-Men (“To me, my X-Men!”), and Robert Downey Jr.’s Doctor Doom confronting the heroes over “stolen lives” as worlds collide.',
+    highlights: ['Final Official Trailer', '“To Me, My X-Men!”', 'Doctor Doom & Steve Rogers'],
+  },
+  {
+    id: 'doomsday-official-trailer',
+    order: 2,
     label: 'Official Trailer',
     title: 'Avengers: Doomsday — Official Theatrical Trailer',
     channel: 'Marvel Entertainment',
@@ -15,7 +27,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-special-look',
-    order: 2,
+    order: 3,
     label: 'Special Look',
     title: 'Avengers: Doomsday — Special Look',
     channel: 'Marvel Entertainment',
@@ -27,7 +39,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-steve-rogers',
-    order: 3,
+    order: 4,
     label: 'Character Teaser',
     title: 'Steve Rogers Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -39,7 +51,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-thor-odinson',
-    order: 4,
+    order: 5,
     label: 'Character Teaser',
     title: 'Thor Odinson Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -51,7 +63,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-xmen',
-    order: 5,
+    order: 6,
     label: 'Faction Teaser',
     title: 'The X-Men Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -63,7 +75,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-wakanda-f4',
-    order: 6,
+    order: 7,
     label: 'Faction Teaser',
     title: 'Wakanda & The Fantastic Four — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -75,7 +87,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-the-return',
-    order: 7,
+    order: 8,
     label: 'Official Footage',
     title: 'Avengers: Doomsday — “The Return”',
     channel: 'Marvel Entertainment',
@@ -87,7 +99,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-december-18',
-    order: 8,
+    order: 9,
     label: 'Teaser Spot',
     title: 'Avengers: Doomsday — In Theaters December 18',
     channel: 'Marvel Entertainment',
@@ -99,7 +111,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-countdown-disneyplus',
-    order: 9,
+    order: 10,
     label: 'Official Recap Promo',
     title: 'Countdown to Avengers: Doomsday — Every Moment on Disney+',
     channel: 'Marvel Entertainment',
@@ -157,7 +169,7 @@ export const DOOMSDAY_POST_CREDITS: PostCreditsScene[] = [
     whatHappens:
       'Mirroring Nick Fury’s famous 2008 Iron Man cameo, Kamala Khan (Ms. Marvel) waits in the shadows of Kate Bishop’s apartment with a S.A.B.E.R. tablet: “You think you’re the only kid superhero in the world?” — explicitly name-dropping Ant-Man’s daughter Cassie Lang as their next recruit.',
     doomsdayConnection:
-      'With Kathryn Newton (Cassie Lang) and Hailee Steinfeld (Kate Bishop, confirmed Nov 23, 2026) both on the Doomsday slate, this scene marks the official birth of the Young Avengers / Champions.',
+      'With Kathryn Newton (Cassie Lang) and Hailee Steinfeld (Kate Bishop) both on the Doomsday slate, this scene marks the official birth of the Young Avengers / Champions.',
     featuredCharacters: ['Kate Bishop', 'Kamala Khan / Ms. Marvel', 'Lucky the Pizza Dog'],
   },
   {
