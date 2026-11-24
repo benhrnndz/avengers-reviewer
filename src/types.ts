@@ -86,7 +86,7 @@ export interface CharacterProfile {
     | 'Young Avengers / Champions'
     | 'Cosmic & Multiverse'
     | 'Wakanda & Global Powers';
-  castStatus?: 'Confirmed' | 'Confirmed Nov 23' | 'Rumored';
+  castStatus?: 'Confirmed' | 'Rumored';
   originUniverse: string;
   debut: string;
   powers: string;
