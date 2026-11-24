@@ -25,8 +25,6 @@ export const CharacterAtlas: React.FC = () => {
   }, [faction]);
 
   const statusBadge = (status?: CharacterProfile['castStatus']) => {
-    if (status === 'Confirmed Nov 23')
-      return 'bg-emerald-500 text-[#04110B] font-semibold border-emerald-400';
     if (status === 'Rumored')
       return 'bg-amber-500/15 text-amber-300 border-amber-400/30';
     return 'bg-black/75 text-zinc-200 border-white/15';
@@ -49,8 +47,7 @@ export const CharacterAtlas: React.FC = () => {
             <p className="mt-2.5 text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
               The complete confirmed ensemble across the Avengers, New Avengers, Fantastic Four,
               Fox X-Men, Wakanda, and Talokan — plus the{' '}
-              <span className="text-emerald-400 font-medium">Young Avengers / Champions</span>{' '}
-              following Hailee Steinfeld’s November 23 confirmation as Kate Bishop.
+              <span className="text-emerald-400 font-medium">Young Avengers / Champions</span>.
             </p>
           </div>
           <div className="font-mono-tech text-xs text-zinc-500 tabular-nums">
@@ -111,9 +108,7 @@ export const CharacterAtlas: React.FC = () => {
                           char.castStatus
                         )}`}
                       >
-                        {char.castStatus === 'Confirmed Nov 23'
-                          ? 'Confirmed Today'
-                          : char.castStatus}
+                        {char.castStatus}
                       </span>
                     )}
                   </div>
