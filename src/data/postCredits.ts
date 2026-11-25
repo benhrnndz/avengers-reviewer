@@ -2,8 +2,20 @@ import { DoomsdayTrailer, PostCreditsScene } from '../types';
 
 export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   {
-    id: 'doomsday-final-trailer',
+    id: 'doomsday-international-teaser',
     order: 1,
+    label: 'International Teaser',
+    title: 'Avengers: Doomsday — International Teaser (“Kneel Before Doom”)',
+    channel: 'Marvel Korea (Official)',
+    videoId: 'Mg2j5QAcWDo',
+    thumbnail: '/trailers/doomsday-international-teaser.jpg',
+    description:
+      'Official international teaser debuting fresh footage of Doctor Doom warning the converging heroes — “You call yourselves heroes? Avengers, Fantastic Four, X-Men? You shall all kneel before Doom” — alongside new action shots of the Fantastic Four, Thor, and Steve Rogers & Thor entering Doom’s throne room.',
+    highlights: ['“Kneel Before Doom”', 'Steve & Thor at Doom Castle', 'New Fantastic Four Shots'],
+  },
+  {
+    id: 'doomsday-final-trailer',
+    order: 2,
     label: 'Final Trailer',
     title: 'Avengers: Doomsday — Final Trailer',
     channel: 'Marvel Entertainment',
@@ -15,7 +27,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-official-trailer',
-    order: 2,
+    order: 3,
     label: 'Official Trailer',
     title: 'Avengers: Doomsday — Official Theatrical Trailer',
     channel: 'Marvel Entertainment',
@@ -27,7 +39,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-special-look',
-    order: 3,
+    order: 4,
     label: 'Special Look',
     title: 'Avengers: Doomsday — Special Look',
     channel: 'Marvel Entertainment',
@@ -39,7 +51,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-steve-rogers',
-    order: 4,
+    order: 5,
     label: 'Character Teaser',
     title: 'Steve Rogers Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -51,7 +63,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-thor-odinson',
-    order: 5,
+    order: 6,
     label: 'Character Teaser',
     title: 'Thor Odinson Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -63,7 +75,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-xmen',
-    order: 6,
+    order: 7,
     label: 'Faction Teaser',
     title: 'The X-Men Will Return — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -75,7 +87,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-wakanda-f4',
-    order: 7,
+    order: 8,
     label: 'Faction Teaser',
     title: 'Wakanda & The Fantastic Four — Avengers: Doomsday',
     channel: 'Marvel Entertainment',
@@ -87,7 +99,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-the-return',
-    order: 8,
+    order: 9,
     label: 'Official Footage',
     title: 'Avengers: Doomsday — “The Return”',
     channel: 'Marvel Entertainment',
@@ -99,7 +111,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-december-18',
-    order: 9,
+    order: 10,
     label: 'Teaser Spot',
     title: 'Avengers: Doomsday — In Theaters December 18',
     channel: 'Marvel Entertainment',
@@ -111,7 +123,7 @@ export const DOOMSDAY_TRAILERS: DoomsdayTrailer[] = [
   },
   {
     id: 'doomsday-countdown-disneyplus',
-    order: 10,
+    order: 11,
     label: 'Official Recap Promo',
     title: 'Countdown to Avengers: Doomsday — Every Moment on Disney+',
     channel: 'Marvel Entertainment',
